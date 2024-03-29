@@ -9,7 +9,8 @@ const dealBtn = document.getElementById("deal-btn");
 
 let playerCards = [];
 let dealerCards = [];
-let dealerFirstCardHidden = true; // Track if dealer's first card is hidden
+let dealerFirstCardHidden = true;
+let balance = 1000; // Track if dealer's first card is hidden
 
 function deal() {
   // Clear previous hands
@@ -37,15 +38,16 @@ function deal() {
   standBtn.disabled = false;
   dealBtn.disabled = true;
 
-  var audio = new Audio('assets/sounds/cardsshuffle.mp3');
+  document.getElementById("balance").innerHTML = "Avabile Blance :" + (balance);
+
+  var audio = new Audio("assets/sounds/cardsshuffle.mp3");
   audio.play();
 
   // Update status
   statusDisplay.textContent = "Status: Start Playing player";
 }
 function hit() {
-
-  var audio = new Audio('assets/sounds/takeacard.mp3');
+  var audio = new Audio("assets/sounds/takeacard.mp3");
   audio.play();
 
   playerCards.push(getCard());
@@ -54,7 +56,8 @@ function hit() {
   // Check if player busts
   if (getHandValue(playerCards) > 21) {
     endGame("Ravi you lost Delear win");
-    var audio = new Audio('assets/sounds/claps.mp3');
+    balance = balance - 100;
+    var audio = new Audio("assets/sounds/claps.mp3");
     audio.play();
   }
 }
@@ -76,15 +79,19 @@ function stand() {
 
   if (dealerScore > 21 || playerScore > dealerScore) {
     endGame("Ravi you win the game!");
-    audio = new Audio('assets/sounds/ipl.mp3');
+    balance = balance + 100;
+    audio = new Audio("assets/sounds/ipl.mp3");
     audio.play();
   } else if (playerScore < dealerScore) {
-    endGame("Ho Ravi you loss the game! Congratulations Delear you won the game");
-    audio = new Audio('assets/sounds/claps.mp3');
+    endGame(
+      "Ho Ravi you loss the game! Congratulations Delear you won the game"
+    );
+    balance = balance - 100;
+    audio = new Audio("assets/sounds/claps.mp3");
     audio.play();
   } else {
     endGame("It's a Tie!");
-    audio = new Audio('assets/sounds/winner.mp3');
+    audio = new Audio("assets/sounds/winner.mp3");
     audio.play();
   }
 }
