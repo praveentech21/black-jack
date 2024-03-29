@@ -37,16 +37,25 @@ function deal() {
   standBtn.disabled = false;
   dealBtn.disabled = true;
 
+  var audio = new Audio('assets/sounds/cardsshuffle.mp3');
+  audio.play();
+
   // Update status
-  statusDisplay.textContent = "Status: Player's Turn";
+  statusDisplay.textContent = "Status: Start Playing player";
 }
 function hit() {
+
+  var audio = new Audio('assets/sounds/takeacard.mp3');
+  audio.play();
+
   playerCards.push(getCard());
   renderCards(playerHand, playerCards);
 
   // Check if player busts
   if (getHandValue(playerCards) > 21) {
-    endGame("Player Busts!");
+    endGame("Ravi you lost Delear win");
+    var audio = new Audio('assets/sounds/claps.mp3');
+    audio.play();
   }
 }
 
@@ -66,11 +75,17 @@ function stand() {
   const dealerScore = getHandValue(dealerCards);
 
   if (dealerScore > 21 || playerScore > dealerScore) {
-    endGame("Player Wins!");
+    endGame("Ravi you win the game!");
+    audio = new Audio('assets/sounds/ipl.mp3');
+    audio.play();
   } else if (playerScore < dealerScore) {
-    endGame("Dealer Wins!");
+    endGame("Ho Ravi you loss the game! Congratulations Delear you won the game");
+    audio = new Audio('assets/sounds/claps.mp3');
+    audio.play();
   } else {
     endGame("It's a Tie!");
+    audio = new Audio('assets/sounds/winner.mp3');
+    audio.play();
   }
 }
 
