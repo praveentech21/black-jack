@@ -1,0 +1,78 @@
+body {
+  font-family: Arial, sans-serif;
+  background-image: url(assets/img/casino.jpg);
+  color: #fff;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.casino-table {
+  background-color: #004d00;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.casino-table h2 {
+  margin: 10px 0;
+  text-align: center;
+}
+
+.game-board {
+  background-color: #004d00;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.hand {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.card {
+  background-color: #fff;
+  color: #000;
+  width: 100px;
+  height: 150px;
+  border-radius: 10px;
+  margin: 0 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.buttons {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.buttons button {
+  padding: 10px 20px;
+  margin: 0 10px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.buttons button:hover {
+  background-color: #0056b3;
+}
+
+.chip-tray {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.status-area {
+  text-align: center;
+}

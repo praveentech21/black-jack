@@ -1,11 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Black Jack Game</title>
-</head>
-<body>
-    
-</body>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Blackjack</title>
+        <link rel="stylesheet" href="styles.css">
+    </head>
+    <body>
+        <div class="container">
+            <div class="casino-table">
+                <div class="game-board">
+                    <!-- Player Hand -->
+                    <h2>Dealer: Jay</h2>
+                    <p id="dealerscore"></p>
+                    <div class="hand player-hand">
+                        <div class="card">Card 1</div>
+                        <div class="card">Card 2</div>
+                    </div>
+                    <!-- Dealer Hand -->
+                    <h2>Player: Jane</h2>
+                    <p id="playerscore"></p>
+                    <div class="hand dealer-hand">
+
+                        <div class="card">Card 1</div>
+                        <div class="card">Card 2</div>
+                        <!-- Add more cards dynamically using JavaScript -->
+                    </div>
+                    <div class="buttons">
+                        <button id="hit-btn">Hit</button>
+                        <button id="stand-btn">Stand</button>
+                        <button id="double-down-btn">Double Down</button>
+                        <button id="split-btn">Split</button>
+                    </div>
+                    <div class="chip-tray">
+                        <p>Balance: $1000</p>
+                        <!-- Add chip buttons for betting -->
+                    </div>
+                    <div class="status-area">
+                        <p>Status: Player's Turn</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <script src="script.js"></script>
+    </body>
 </html>
