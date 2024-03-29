@@ -1,128 +1,151 @@
-let deck = [];
-let playerHand = [];
-let dealerHand = [];
-let playerScore = 0;
-let dealerScore = 0;
-let balance = 1000;
-let bet = 0;
+const playerHand = document.querySelector(".player-hand");
+const dealerHand = document.querySelector(".dealer-hand");
+const dealerName = document.getElementById("dealer-name");
+const playerName = document.getElementById("player-name");
+const statusDisplay = document.getElementById("status");
+const hitBtn = document.getElementById("hit-btn");
+const standBtn = document.getElementById("stand-btn");
+const dealBtn = document.getElementById("deal-btn");
 
-const suits = ["Hearts", "Diamonds", "Clubs", "Spades"];
-const values = [
-  "2",
-  "3",
-  "4",
-  "5",
-  "6",
-  "7",
-  "8",
-  "9",
-  "10",
-  "Jack",
-  "Queen",
-  "King",
-  "Ace",
-];
+let playerCards = [];
+let dealerCards = [];
+let dealerFirstCardHidden = true; // Track if dealer's first card is hidden
 
-function createDeck() {
-  for (let suit of suits) {
-    for (let value of values) {
-      let card = { suit: suit, value: value };
-      deck.push(card);
-    }
-  }
+function deal() {
+  // Clear previous hands
+  playerHand.innerHTML = "";
+  dealerHand.innerHTML = "";
+  playerCards = [];
+  dealerCards = [];
+  dealerFirstCardHidden = true;
+
+  // Deal initial cards
+  playerCards.push(getCard());
+  dealerCards.push(getCard());
+  playerCards.push(getCard());
+  dealerCards.push(getCard());
+
+  // Display cards
+  renderCards(playerHand, playerCards);
+  renderDealerCards(dealerHand, dealerCards);
+
+  // Reset dealer's hidden card
+  dealerFirstCardHidden = true;
+
+  // Enable/disable buttons
+  hitBtn.disabled = false;
+  standBtn.disabled = false;
+  dealBtn.disabled = true;
+
+  // Update status
+  statusDisplay.textContent = "Status: Player's Turn";
 }
-
-function shuffleDeck() {
-  deck.sort(() => Math.random() - 0.5);
-}
-
-function dealInitialHands() {
-  playerHand.push(deck.pop());
-  dealerHand.push(deck.pop());
-  playerHand.push(deck.pop());
-  dealerHand.push(deck.pop());
-}
-
-function calculateScore(hand) {
-  let score = 0;
-  let hasAce = false;
-  for (let card of hand) {
-    if (card.value === "Ace") {
-      hasAce = true;
-    }
-    if (
-      card.value === "Jack" ||
-      card.value === "Queen" ||
-      card.value === "King"
-    ) {
-      score += 10;
-    } else if (card.value !== "Ace") {
-      score += parseInt(card.value);
-    }
-  }
-  if (hasAce && score + 11 <= 21) {
-    score += 11;
-  } else if (hasAce) {
-    score += 1;
-  }
-  return score;
-}
-
-function checkBlackjack() {
-  if (playerHand.length === 2 && playerScore === 21) {
-    balance += bet * 1.5; // Blackjack payout
-    endRound("Blackjack! You win!");
-  } else if (dealerHand.length === 2 && dealerScore === 21) {
-    endRound("Dealer has Blackjack. You lose.");
-  }
-}
-
 function hit() {
-  playerHand.push(deck.pop());
-  playerScore = calculateScore(playerHand);
-  if (playerScore > 21) {
-    endRound("Bust! You lose.");
+  playerCards.push(getCard());
+  renderCards(playerHand, playerCards);
+
+  // Check if player busts
+  if (getHandValue(playerCards) > 21) {
+    endGame("Player Busts!");
   }
 }
 
 function stand() {
-  while (dealerScore < 17) {
-    dealerHand.push(deck.pop());
-    dealerScore = calculateScore(dealerHand);
+  // Reveal dealer's first card
+  dealerFirstCardHidden = false;
+  renderDealerCards(dealerHand, dealerCards);
+
+  // Dealer's turn
+  while (getHandValue(dealerCards) < 17) {
+    dealerCards.push(getCard());
+    renderCards(dealerHand, dealerCards);
   }
-  if (dealerScore > 21 || dealerScore < playerScore) {
-    balance += bet * 2; // Player wins
-    endRound("You win!");
-  } else if (dealerScore > playerScore) {
-    endRound("You lose.");
+
+  // Determine winner
+  const playerScore = getHandValue(playerCards);
+  const dealerScore = getHandValue(dealerCards);
+
+  if (dealerScore > 21 || playerScore > dealerScore) {
+    endGame("Player Wins!");
+  } else if (playerScore < dealerScore) {
+    endGame("Dealer Wins!");
   } else {
-    balance += bet; // Push
-    endRound("Push. It's a tie.");
+    endGame("It's a Tie!");
   }
 }
 
-function endRound(message) {
-  alert(message);
-  resetGame();
+function endGame(message) {
+  hitBtn.disabled = true;
+  standBtn.disabled = true;
+  dealBtn.disabled = false;
+  statusDisplay.textContent = "Status: " + message;
 }
 
-function resetGame() {
-  deck = [];
-  playerHand = [];
-  dealerHand = [];
-  playerScore = 0;
-  dealerScore = 0;
-  createDeck();
-  shuffleDeck();
-  dealInitialHands();
-  playerScore = calculateScore(playerHand);
-  dealerScore = calculateScore(dealerHand);
-  checkBlackjack();
+function getCard() {
+  // Dummy function to get a random card value
+  const cards = [
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9",
+    "10",
+    "J",
+    "Q",
+    "K",
+    "A",
+  ];
+  return cards[Math.floor(Math.random() * cards.length)];
 }
 
-createDeck();
-shuffleDeck();
-dealInitialHands();
-playerScore = calculateScore(playerHand);
-dealerScore = calculateScore(dealerHand);
-checkBlackjack();
+function renderCards(container, cards) {
+  container.innerHTML = "";
+  cards.forEach((card) => {
+    console.log(card);
+    const div = document.createElement("img");
+    div.classList.add("card");
+    div.src = `assets/cards/${card}.png`;
+    container.appendChild(div);
+  });
+}
+
+function renderDealerCards(container, cards) {
+  container.innerHTML = "";
+  cards.forEach((card, index) => {
+    console.log(card);
+    const div = document.createElement("img");
+    div.classList.add("card");
+    if (index === 0 && dealerFirstCardHidden) {
+      div.src = "assets/cards/joker.png";
+    } else {
+      div.src = `assets/cards/${card}.png`;
+    }
+    container.appendChild(div);
+  });
+}
+
+function getHandValue(cards) {
+  let sum = 0;
+  let numAces = 0;
+
+  cards.forEach((card) => {
+    if (card === "A") {
+      numAces++;
+      sum += 11;
+    } else if (card === "J" || card === "Q" || card === "K") {
+      sum += 10;
+    } else {
+      sum += parseInt(card);
+    }
+  });
+
+  while (sum > 21 && numAces > 0) {
+    sum -= 10;
+    numAces--;
+  }
+
+  return sum;
+}

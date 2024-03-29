@@ -11,37 +11,34 @@
             <div class="casino-table">
                 <div class="game-board">
                     <!-- Player Hand -->
-                    <h2>Dealer: Jay</h2>
-                    <p id="dealerscore"></p>
+                    <h2 id="player-name">Player: Jane</h2>
                     <div class="hand player-hand">
                         <div class="card">Card 1</div>
                         <div class="card">Card 2</div>
+                        <!-- Add more cards dynamically using JavaScript -->
                     </div>
                     <!-- Dealer Hand -->
-                    <h2>Player: Jane</h2>
-                    <p id="playerscore"></p>
+                    <h2 id="dealer-name">Dealer: John</h2>
                     <div class="hand dealer-hand">
-
                         <div class="card">Card 1</div>
                         <div class="card">Card 2</div>
                         <!-- Add more cards dynamically using JavaScript -->
                     </div>
                     <div class="buttons">
-                        <button id="hit-btn">Hit</button>
-                        <button id="stand-btn">Stand</button>
-                        <button id="double-down-btn">Double Down</button>
-                        <button id="split-btn">Split</button>
+                        <button id="hit-btn" onclick="hit()">Hit</button>
+                        <button id="stand-btn" onclick="stand()">Stand</button>
+                        <button id="deal-btn" onclick="deal()">Deal</button>
                     </div>
                     <div class="chip-tray">
                         <p>Balance: $1000</p>
                         <!-- Add chip buttons for betting -->
                     </div>
                     <div class="status-area">
-                        <p>Status: Player's Turn</p>
+                        <p id="status">Status: Ready to Play</p>
                     </div>
+
                 </div>
             </div>
-
         </div>
         <script src="script.js"></script>
     </body>
